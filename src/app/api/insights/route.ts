@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 interface InsightsRequest {
   query: string;
   top_k?: number;
