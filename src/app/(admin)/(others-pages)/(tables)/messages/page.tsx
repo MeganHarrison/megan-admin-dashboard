@@ -8,19 +8,14 @@ export const metadata: Metadata = {
   description: 'View and manage text messages from the database',
 };
 
-const breadcrumbItems = [
-  { label: 'Tables', href: '/tables' },
-  { label: 'Messages', href: '/messages' }
-];
-
 export default function MessagesPage() {
   return (
     <>
-      <PageBreadCrumb items={breadcrumbItems} />
+      <PageBreadCrumb pageTitle="Text Messages" />
       
       <ComponentCard
         title="Text Messages"
-        subtitle="View and search through imported text messages from the database"
+        desc="View and search through imported text messages from the database"
       >
         <MessagesTable />
       </ComponentCard>

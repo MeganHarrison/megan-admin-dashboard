@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import ComponentCard from "@/components/common/ComponentCard";
-import Button from "@/components/ui/button/Button";
 import Badge from "@/components/ui/badge/Badge";
 import { PaperPlaneIcon, ShootingStarIcon, ChatIcon, ArrowUpIcon } from "@/icons";
 interface InsightResponse {
@@ -14,7 +13,7 @@ interface InsightResponse {
   debug?: {
     vectorized_chunks: number;
     search_time_ms: number;
-    top_matches?: any[];
+    top_matches?: unknown[];
   };
 }
 
@@ -98,7 +97,7 @@ const InsightsPage = () => {
       } else {
         throw new Error('Failed to generate insights');
       }
-    } catch (error) {
+    } catch {
       const errorMessage: ChatMessage = {
         id: `error-${Date.now()}`,
         type: 'assistant',

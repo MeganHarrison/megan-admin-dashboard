@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       throw new Error(`Worker request failed: ${workerResponse.status}`);
     }
 
-    const result = await workerResponse.json();
+    const result = await workerResponse.json() as Record<string, unknown>;
     
     return Response.json({
       success: true,

@@ -22,7 +22,7 @@ interface InsightResponse {
   debug?: {
     vectorized_chunks: number;
     search_time_ms: number;
-    top_matches?: any[];
+    top_matches?: unknown[];
   };
 }
 
@@ -106,7 +106,7 @@ const InsightsV2Page = () => {
       } else {
         throw new Error('Failed to generate insights');
       }
-    } catch (error) {
+    } catch {
       const errorMessage: ChatMessage = {
         id: `error-${Date.now()}`,
         type: 'assistant',

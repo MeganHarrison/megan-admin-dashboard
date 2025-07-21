@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Badge from '@/components/ui/badge/Badge';
 import { Table, TableHeader, TableBody, TableRow, TableCell } from '@/components/ui/table';
 
@@ -39,7 +39,7 @@ export default function MessagesTable() {
   const [searchInput, setSearchInput] = useState('');
   const [useSampleData, setUseSampleData] = useState(true);
 
-  const fetchMessages = async (page: number, search: string = '') => {
+  const fetchMessages = useCallback(async (page: number, search: string = '') => {
     try {
       setLoading(true);
       const params = new URLSearchParams({
@@ -56,10 +56,10 @@ export default function MessagesTable() {
       }
       
       const response = await fetch(`/api/messages?${params}`);
-      const result = await response.json() as any;
+      const result = await response.json() as { success: boolean; data?: unknown[]; total?: number; totalPages?: number; error?: string };
       
       if (result.success) {
-        setData(result.data);
+        setData(result.data as unknown as MessagesData);
         setError(null);
       } else {
         setError(result.error || 'Failed to fetch messages');
@@ -70,11 +70,11 @@ export default function MessagesTable() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [useSampleData]);
 
   useEffect(() => {
     fetchMessages(currentPage, searchTerm);
-  }, [currentPage, searchTerm, useSampleData]);
+  }, [currentPage, searchTerm, useSampleData, fetchMessages]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

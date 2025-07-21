@@ -174,7 +174,7 @@ export default function ShadcnDemoPage() {
                   <ShadcnBadge variant="secondary" className="mr-2">
                     Response
                   </ShadcnBadge>
-                  You typed: "{message}"
+                  You typed: &quot;{message}&quot;
                 </p>
               </CardContent>
             </Card>

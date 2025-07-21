@@ -103,7 +103,7 @@ export async function GET(request: Request) {
     // Try to use Cloudflare D1, fall back to sample data if not available
     try {
       const { getRequestContext } = await import('@cloudflare/next-on-pages');
-      const { env } = getRequestContext();
+      const { env } = getRequestContext() as unknown as { env: { DB: { prepare: (query: string) => { bind: (...args: string[]) => { all: () => Promise<{ results: unknown[] }>; first: () => Promise<unknown> } } } } };
     
       // Get pagination parameters
       const page = parseInt(url.searchParams.get('page') || '1');
@@ -134,7 +134,7 @@ export async function GET(request: Request) {
       ]);
       
       const messages = messagesResult.results as Message[];
-      const total = (countResult as any)?.total || 0;
+      const total = (countResult as { total?: number })?.total || 0;
       const totalPages = Math.ceil(total / limit);
       
       return Response.json({
