@@ -33,6 +33,14 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
   {
+    name: "Relationship",
+    icon: <PageIcon />,
+    subItems: [
+      { name: "Relationship Chart", path: "/relationship/relationship-chart", pro: false },
+      { name: "Text Messages", path: "/relationship/text-messages", pro: false },
+    ],
+  },
+  {
     icon: <CalenderIcon />,
     name: "Calendar",
     path: "/calendar",

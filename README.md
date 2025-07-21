@@ -4,8 +4,6 @@ TailAdmin is a free and open-source admin dashboard template built on **Next.js 
 
 ![TailAdmin - Next.js Dashboard Preview](./banner.png)
 
-With TailAdmin Next.js, you get access to all the necessary dashboard UI components, elements, and pages required to build a high-quality and complete dashboard or admin panel. Whether you're building a dashboard or admin panel for a complex web application or a simple website. 
-
 TailAdmin utilizes the powerful features of **Next.js 15** and common features of Next.js such as server-side rendering (SSR), static site generation (SSG), and seamless API route integration. Combined with the advancements of **React 19** and the robustness of **TypeScript**, TailAdmin is the perfect solution to help get your project up and running quickly.
 
 ## Overview
@@ -78,56 +76,12 @@ TailAdmin is a pre-designed starting point for building a web-based dashboard us
 
 All components are built with React and styled using Tailwind CSS for easy customization.
 
-## Feature Comparison
-
-### Free Version
-- 1 Unique Dashboard
-- 30+ dashboard components
-- 50+ UI elements
-- Basic Figma design files
-- Community support
-
-### Pro Version
-- 5 Unique Dashboards: Analytics, Ecommerce, Marketing, CRM, Stocks (more coming soon)
-- 400+ dashboard components and UI elements
-- Complete Figma design file
-- Email support
-
-To learn more about pro version features and pricing, visit our [pricing page](https://tailadmin.com/pricing).
-
-## Changelog
-
-### Version 2.0.2 - [March 25, 2025]
-
-- Upgraded to Next v15.2.3 for [CVE-2025-29927](https://nextjs.org/blog/cve-2025-29927) concerns
-- Included overrides vectormap for packages to prevent peer dependency errors during installation.
-- Migrated from react-flatpickr to flatpickr package for React 19 support
-
-### Version 2.0.1 - [February 27, 2025]
-
-#### Update Overview
-
-- Upgraded to Tailwind CSS v4 for better performance and efficiency.
-- Updated class usage to match the latest syntax and features.
-- Replaced deprecated class and optimized styles.
-
 #### Next Steps
 
 - Run npm install or yarn install to update dependencies.
 - Check for any style changes or compatibility issues.
 - Refer to the Tailwind CSS v4 [Migration Guide](https://tailwindcss.com/docs/upgrade-guide) on this release. if needed.
 - This update keeps the project up to date with the latest Tailwind improvements. 🚀
-
-### v2.0.0 (February 2025)
-A major update focused on Next.js 15 implementation and comprehensive redesign.
-
-#### Major Improvements
-- Complete redesign using Next.js 15 App Router and React Server Components
-- Enhanced user interface with Next.js-optimized components
-- Improved responsiveness and accessibility
-- New features including collapsible sidebar, chat screens, and calendar
-- Redesigned authentication using Next.js App Router and server actions
-- Updated data visualization using ApexCharts for React
 
 #### Breaking Changes
 
@@ -137,37 +91,52 @@ A major update focused on Next.js 15 implementation and comprehensive redesign.
 
 [Read more](https://tailadmin.com/docs/update-logs/nextjs) on this release.
 
-#### Breaking Changes
-- Migrated from Next.js 14 to Next.js 15
-- Chart components now use ApexCharts for React
-- Authentication flow updated to use Server Actions and middleware
 
-### v1.3.4 (July 01, 2024)
-- Fixed JSvectormap rendering issues
+# d1-starter-sessions-api
 
-### v1.3.3 (June 20, 2024)
-- Fixed build error related to Loader component
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/d1-starter-sessions-api-template)
 
-### v1.3.2 (June 19, 2024)
-- Added ClickOutside component for dropdown menus
-- Refactored sidebar components
-- Updated Jsvectormap package
+<!-- dash-content-start -->
 
-### v1.3.1 (Feb 12, 2024)
-- Fixed layout naming consistency
-- Updated styles
+Starter repository using Cloudflare Workers with D1 database and the new [D1 Sessions API for read replication](https://developers.cloudflare.com/d1/best-practices/read-replication/#use-sessions-api).
 
-### v1.3.0 (Feb 05, 2024)
-- Upgraded to Next.js 14
-- Added Flatpickr integration
-- Improved form elements
-- Enhanced multiselect functionality
-- Added default layout component
+## What is the demo?
 
-## License
+This demo simulates purchase orders administration.
+There are two main actions you can do.
 
-TailAdmin Next.js Free Version is released under the MIT License.
+1. Create an order with a `customerId`, `orderId`, and `quantity`.
+2. List all orders.
 
-## Support
+The UI when visiting the deployed Worker project shows 3 buttons.
 
-If you find this project helpful, please consider giving it a star on GitHub. Your support helps us continue developing and maintaining this template.
+- **Create order & List**
+  - Creates a new order using the provided customer ID with a random order ID and quantity.
+  - Does a `POST /api/orders` request to the Worker, and its handler uses the Sessions API to do an `INSERT` first for the new order that will be forwarded to the primary database instance, followed by a `SELECT` query to list all orders that will be executed by nearest replica database.
+- **List orders**
+  - Lists every order recorded in the database.
+  - Does a `GET /api/orders` request to the Worker, and its handler uses the Sessions API to do a `SELECT` query to list the orders that will be executed by the nearest replica database.
+- **Reset**
+  - Drops and recreates the orders table.
+  - Gets executed by the primary database.
+
+The UI JavaScript code maintains the latest `bookmark` returned by the API and sends it along every subsequent request.
+This ensures that we have sequential consistency in our observed database results and all our actions are properly ordered.
+
+Read more information about how the Sessions API works, and how sequential consistency is achieved in the [D1 read replication documentation](https://developers.cloudflare.com/d1/best-practices/read-replication/).
+
+<!-- dash-content-end -->
+
+## Deploy
+
+1. Checkout the project locally.
+2. Run `npm ci` to install all dependencies.
+3. Run `npm run deploy` to deploy to your Cloudflare account.
+4. Visit the URL you got in step 3.
+
+## Local development
+
+1. Run `npm run dev` to start the development server.
+2. Visit <http://localhost:8787>.
+
+Note: The "Served by Region" information won't be shown when running locally.
