@@ -1,0 +1,23 @@
+name = "megan-admin-dashboard"
+compatibility_date = "2024-01-01"
+
+# Pages specific configuration
+[build]
+command = "npm run build"
+
+[build.upload]
+format = "service-worker"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "megan-personal"
+database_id = "f450193b-9536-4ada-8271-2a8cd917069e"
+
+# Environment variables
+[vars]
+CSV_WORKER_URL = "https://csv-import-worker.megan-d14.workers.dev"
+
+# Deployment configuration
+[deployment]
+exclude = ["node_modules", ".git", ".next/cache"]

@@ -1,6 +1,6 @@
 # CSV Import to Cloudflare D1 Database
 
-This feature allows you to upload CSV files and import their data into the `text-bc` table in your Cloudflare D1 database.
+This feature allows you to upload CSV files and import their data into the `texts-bc` table in your Cloudflare D1 database.
 
 ## Features
 
@@ -47,7 +47,7 @@ NEXT_PUBLIC_CSV_WORKER_URL=https://csv-import-worker.<your-subdomain>.workers.de
 The worker is configured to use:
 - Database Name: `megan-personal`
 - Database ID: `f450193b-9536-4ada-8271-2a8cd917069e`
-- Table Name: `text-bc`
+- Table Name: `texts-bc`
 
 ## Usage
 
@@ -56,7 +56,7 @@ The worker is configured to use:
 3. Click "Import CSV to Database"
 4. The system will:
    - Parse the CSV file
-   - Create the `text-bc` table if it doesn't exist
+   - Create the `texts-bc` table if it doesn't exist
    - Insert all rows from the CSV into the table
 
 ## CSV Format

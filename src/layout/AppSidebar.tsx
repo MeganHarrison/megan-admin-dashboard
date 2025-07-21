@@ -28,38 +28,13 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
-  },
-  {
     name: "Relationship",
     icon: <PageIcon />,
     subItems: [
-      { name: "Relationship Chart", path: "/relationship/relationship-chart", pro: false },
-      { name: "Text Messages", path: "/relationship/text-messages", pro: false },
+      { name: "Relationship Trajectory", path: "/trajectory", pro: false },
+      { name: "Text Messages", path: "/messages", pro: false },
+      { name: "Insights", path: "/insights", pro: false },
     ],
-  },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
-
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
   },
   {
     name: "Pages",
@@ -67,6 +42,11 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Blank Page", path: "/blank", pro: false },
       { name: "404 Error", path: "/error-404", pro: false },
+      { name: "Form Elements", path: "/form-elements", pro: false },
+      { name: "Basic Tables", path: "/basic-tables", pro: false },
+      { name: "Calendar", path: "/calendar", pro: false },
+      { name: "Profile", path: "/profile", pro: false },
+      { name: "Ecommerce", path: "/", pro: false },
     ],
   },
 ];
@@ -321,14 +301,14 @@ const AppSidebar: React.FC = () => {
             <>
               <Image
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src="/images/unmasked4.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <Image
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src="/images/unmasked4.png"
                 alt="Logo"
                 width={150}
                 height={40}
@@ -336,7 +316,7 @@ const AppSidebar: React.FC = () => {
             </>
           ) : (
             <Image
-              src="/images/logo/logo-icon.svg"
+              src="/images/unmasked4.png"
               alt="Logo"
               width={32}
               height={32}

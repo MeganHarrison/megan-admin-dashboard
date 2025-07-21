@@ -10,51 +10,80 @@ interface CSVRow {
 }
 
 async function parseCSV(text: string): Promise<CSVRow[]> {
-  const lines = text.trim().split('\n');
-  if (lines.length === 0) return [];
-  
-  // Parse headers - handle quoted values
-  const headers = parseCSVLine(lines[0]);
-  
-  // Parse rows
   const rows: CSVRow[] = [];
-  for (let i = 1; i < lines.length; i++) {
-    const values = parseCSVLine(lines[i]);
-    const row: CSVRow = {};
+  let i = 0;
+  
+  // Parse headers first
+  const headerResult = parseCSVRecord(text, i);
+  const headers = headerResult.values;
+  i = headerResult.nextIndex;
+  
+  // Parse data rows
+  while (i < text.length) {
+    const rowResult = parseCSVRecord(text, i);
+    if (rowResult.values.length === 0) break;
     
+    const row: CSVRow = {};
     headers.forEach((header, index) => {
-      row[header] = values[index] || '';
+      row[header] = rowResult.values[index] || '';
     });
     
     rows.push(row);
+    i = rowResult.nextIndex;
   }
   
   return rows;
 }
 
-function parseCSVLine(line: string): string[] {
-  const result = [];
+function parseCSVRecord(text: string, startIndex: number): { values: string[], nextIndex: number } {
+  const values: string[] = [];
   let current = '';
   let inQuotes = false;
+  let i = startIndex;
   
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
+  // Skip any leading whitespace/newlines
+  while (i < text.length && (text[i] === '\n' || text[i] === '\r')) {
+    i++;
+  }
+  
+  while (i < text.length) {
+    const char = text[i];
     
     if (char === '"') {
+      // Handle escaped quotes (double quotes)
+      if (inQuotes && i + 1 < text.length && text[i + 1] === '"') {
+        current += '"';
+        i += 2;
+        continue;
+      }
       inQuotes = !inQuotes;
     } else if (char === ',' && !inQuotes) {
-      result.push(current.trim());
+      values.push(current);
       current = '';
+    } else if ((char === '\n' || char === '\r') && !inQuotes) {
+      // End of record
+      values.push(current);
+      // Skip any trailing \r\n
+      while (i + 1 < text.length && (text[i + 1] === '\n' || text[i + 1] === '\r')) {
+        i++;
+      }
+      return { values, nextIndex: i + 1 };
     } else {
       current += char;
     }
+    
+    i++;
   }
   
-  result.push(current.trim());
-  return result;
+  // Handle end of file
+  if (current.length > 0 || values.length > 0) {
+    values.push(current);
+  }
+  
+  return { values, nextIndex: i };
 }
 
-export default {
+const worker = {
   async fetch(request: Request, env: Env): Promise<Response> {
     // Handle CORS
     if (request.method === 'OPTIONS') {
@@ -92,45 +121,53 @@ export default {
         });
       }
       
-      // Get column names from the first row
-      const columns = Object.keys(rows[0]);
-      
-      // Create table if it doesn't exist
-      // Assuming all columns are TEXT for simplicity
+      // Create texts-bc table if it doesn't exist with the correct schema
       const createTableQuery = `
-        CREATE TABLE IF NOT EXISTS "text-bc" (
-          ${columns.map(col => `"${col}" TEXT`).join(',\n          ')}
+        CREATE TABLE IF NOT EXISTS "texts-bc" (
+          "id" integer PRIMARY KEY,
+          "date" text,
+          "type" text,
+          "sender" text,
+          "message" text,
+          "attachment" text,
+          "time" text,
+          "date_time" text,
+          "sentiment" TEXT,
+          "category" TEXT,
+          "tag" TEXT
         )
       `;
       
       await env.DB.prepare(createTableQuery).run();
       
-      // Insert rows in batches
-      const batchSize = 100;
+      // Use D1 batch API for better performance with large datasets
       let totalInserted = 0;
+      const batchSize = 100;
       
       for (let i = 0; i < rows.length; i += batchSize) {
         const batch = rows.slice(i, i + batchSize);
         
-        // Build insert query
-        const placeholders = batch.map(() => 
-          `(${columns.map(() => '?').join(', ')})`
-        ).join(', ');
-        
-        const insertQuery = `
-          INSERT INTO "text-bc" (${columns.map(col => `"${col}"`).join(', ')})
-          VALUES ${placeholders}
-        `;
-        
-        // Flatten values for the query
-        const values: string[] = [];
-        batch.forEach(row => {
-          columns.forEach(col => {
-            values.push(row[col] || '');
-          });
+        // Prepare statements for batch execution
+        const statements = batch.map(row => {
+          return env.DB.prepare(`
+            INSERT INTO "texts-bc" ("date", "type", "sender", "message", "attachment", "time", "date_time", "sentiment", "category", "tag")
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `).bind(
+            row.date || '',
+            row.type || '',
+            row.sender || '',
+            row.message || '',
+            row.attachment || '',
+            row.time || '',
+            row.date_time || '',
+            row.sentiment || '',
+            row.category || '',
+            row.tag || ''
+          );
         });
         
-        await env.DB.prepare(insertQuery).bind(...values).run();
+        // Execute batch
+        await env.DB.batch(statements);
         totalInserted += batch.length;
       }
       
@@ -138,7 +175,7 @@ export default {
         JSON.stringify({ 
           success: true, 
           rowsImported: totalInserted,
-          message: `Successfully imported ${totalInserted} rows to text-bc table`
+          message: `Successfully imported ${totalInserted} rows to texts-bc table`
         }),
         {
           headers: { 
@@ -166,3 +203,5 @@ export default {
     }
   },
 };
+
+export default worker;

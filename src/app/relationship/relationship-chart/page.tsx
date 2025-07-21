@@ -8,10 +8,6 @@ interface RelationshipDataPoint {
     notes: string;
 }
 
-interface ChartColors {
-    backgroundColors: string[];
-    pointColors: string[];
-}
 
 class RelationshipChart {
     private ctx: CanvasRenderingContext2D;

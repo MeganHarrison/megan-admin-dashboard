@@ -39,7 +39,7 @@ test('CSV import with live Cloudflare Worker', async ({ page }) => {
   const successMessage = page.locator('.bg-green-50').last();
   await expect(successMessage).toBeVisible({ timeout: 10000 });
   await expect(successMessage).toContainText('Success!');
-  await expect(successMessage).toContainText('Imported 3 rows to the text-bc table');
+  await expect(successMessage).toContainText('Imported 3 rows to the texts-bc table');
   
   // Take a screenshot of the success
   await page.screenshot({ path: 'csv-import-success-live.png' });

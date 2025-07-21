@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
-interface Env {
-  DB: D1Database;
+interface CSVRow {
+  [key: string]: string;
 }
 
-async function parseCSV(text: string): Promise<any[]> {
+async function parseCSV(text: string): Promise<CSVRow[]> {
   const lines = text.trim().split('\n');
   if (lines.length === 0) return [];
   
@@ -17,7 +17,7 @@ async function parseCSV(text: string): Promise<any[]> {
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
-    const row: any = {};
+    const row: CSVRow = {};
     
     headers.forEach((header, index) => {
       row[header] = values[index] || '';

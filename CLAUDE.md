@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### CSV Import to Cloudflare D1
 - Page available at `/csv-import` for uploading CSV files
-- Imports data to the `text-bc` table in the `megan-personal` D1 database
+- Imports data to the `texts-bc` table in the `megan-personal` D1 database
 - Database ID: `f450193b-9536-4ada-8271-2a8cd917069e`
 - Worker configuration in `wrangler.toml`
 - See `documentation/csv-import-d1.md` for deployment instructions

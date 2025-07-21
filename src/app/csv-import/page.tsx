@@ -42,10 +42,10 @@ export default function CSVImportPage() {
         body: formData,
       });
 
-      const data = await response.json();
+      const data = await response.json() as { rowsImported?: number; error?: string };
 
       if (response.ok) {
-        setMessage(`Success! Imported ${data.rowsImported} rows to the text-bc table.`);
+        setMessage(`Success! Imported ${data.rowsImported} rows to the texts-bc table.`);
         setFile(null);
         // Reset file input
         const fileInput = document.getElementById('csv-file') as HTMLInputElement;
@@ -68,7 +68,7 @@ export default function CSVImportPage() {
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
         <div className="mb-6">
           <p className="text-gray-600 mb-4">
-            Upload a CSV file to import its data into the <code className="bg-gray-100 px-2 py-1 rounded">text-bc</code> table 
+            Upload a CSV file to import its data into the <code className="bg-gray-100 px-2 py-1 rounded">texts-bc</code> table 
             in the <code className="bg-gray-100 px-2 py-1 rounded">megan-personal</code> D1 database.
           </p>
         </div>

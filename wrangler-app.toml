@@ -1,0 +1,31 @@
+name = "megan-admin-dashboard"
+main = ".vercel/output/static/_worker.js/index.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Account and routing
+account_id = "d1416265449d2a0bae41c45c791270ec"
+workers_dev = true
+
+# Build configuration
+[build]
+command = "npm run pages:build"
+
+# Assets
+[site]
+bucket = ".vercel/output/static"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "megan-personal"
+database_id = "f450193b-9536-4ada-8271-2a8cd917069e"
+
+# Environment variables
+[vars]
+CSV_WORKER_URL = "https://csv-import-worker.megan-d14.workers.dev"
+NEXT_PUBLIC_CSV_WORKER_URL = "https://csv-import-worker.megan-d14.workers.dev"
+
+# Node.js compatibility
+[env.production]
+compatibility_flags = ["nodejs_compat"]

@@ -1,0 +1,11 @@
+id,date_time,date,time,type,sender,message,attachment,tag,sentiment,category
+1,2022-12-24 13:07:09,12/24/22,13:07:09,Incoming,Brandon Clymer,Got ya. ,,,,
+2,2022-12-24 13:08:33,12/24/22,13:08:33,Incoming,Brandon Clymer,,IMG_1675.mov,,,
+3,2022-12-24 13:20:15,12/24/22,13:20:15,Incoming,Brandon Clymer,This is my nephew making his case for early presents haha ,,,,
+4,2022-12-24 19:55:25,12/24/22,19:55:25,Outgoing,,Lol… presents and money drive happiness 😂 ,,,,
+5,2022-12-24 19:56:44,12/24/22,19:56:44,Incoming,Brandon Clymer,"Haha yea, he actually made some good points about being a kid and wanting to open them ",,,,
+6,2022-12-24 19:57:12,12/24/22,19:57:12,Incoming,Brandon Clymer,,IMG_1676.mov,,,
+7,2022-12-24 19:57:12,12/24/22,19:57:12,Incoming,Brandon Clymer,He won the argument ,,,,
+8,2022-12-25 20:07:25,12/25/22,20:07:25,Outgoing,,Merry Christmas:) ,,,,
+9,2022-12-25 20:27:04,12/25/22,20:27:04,Incoming,Brandon Clymer,"Hey, merry Christmas. How was your day? ",,,,
+10,2022-12-25 20:52:20,12/25/22,20:52:20,Outgoing,,It was good. Just finished dinner. How was yours?,,,,
