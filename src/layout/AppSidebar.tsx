@@ -34,6 +34,8 @@ const navItems: NavItem[] = [
       { name: "Relationship Trajectory", path: "/trajectory", pro: false },
       { name: "Text Messages", path: "/messages", pro: false },
       { name: "Insights", path: "/insights", pro: false },
+      { name: "shadcn Demo", path: "/shadcn-demo", pro: false },
+      { name: "Insights v2", path: "/insights-v2", pro: false },
     ],
   },
   {
