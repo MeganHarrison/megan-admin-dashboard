@@ -13,8 +13,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Rules
 
-### ALWAYS test BEFORE marking tasks as complete
-CRITICAL: You MUST test using the Playwright MCP server BEFORE saying a task is complete or marking it as done. This is a hard requirement - no exceptions. If you cannot test, you cannot claim the task is complete.
+### MANDATORY: TEST BEFORE CLAIMING ANYTHING WORKS
+**ABSOLUTE REQUIREMENT**: You MUST test EVERY feature, deployment, or functionality BEFORE saying it works. No exceptions.
+
+1. **NEVER say "it's working" without testing first**
+2. **NEVER say "successfully deployed" without verifying the deployment**
+3. **NEVER say "the functionality is ready" without running actual tests**
+4. **ALWAYS test with real data/files, not just checking if commands succeed**
+5. **If you cannot test something, explicitly say "I implemented this but have NOT tested it"**
+
+Testing means:
+- For web pages: Actually visiting the URL and verifying it loads correctly
+- For APIs: Making real requests and checking responses
+- For functionality: Running it end-to-end with test data
+- For deployments: Accessing the live URL and confirming it works
+
+This rule exists because untested claims waste time with unnecessary back-and-forth.
 
 ### Task Completion Rule
 NEVER say "I've completed [task]" or mark a task as done without:
