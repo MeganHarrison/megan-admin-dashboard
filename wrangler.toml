@@ -1,11 +1,15 @@
-name = "csv-import-worker"
-main = "src/workers/csv-import-worker.ts"
+name = "megan-admin-dashboard"
 compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
 
+# D1 Database binding for Pages
 [[d1_databases]]
 binding = "DB"
 database_name = "megan-personal"
 database_id = "f450193b-9536-4ada-8271-2a8cd917069e"
 
-[env.production]
-vars = { ENVIRONMENT = "production" }
+# Environment variables
+[vars]
+CSV_WORKER_URL = "https://csv-import-worker.megan-d14.workers.dev"
+ENVIRONMENT = "production"
